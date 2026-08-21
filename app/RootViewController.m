@@ -46,7 +46,9 @@ extern int KFChmod(const char *path, mode_t mode);
     self.view.backgroundColor = [UIColor blackColor];
 
     WKWebViewConfiguration *cfg = [[WKWebViewConfiguration alloc] init];
-    cfg.preferences.javaScriptEnabled = YES;
+    WKWebpagePreferences *wp = [[WKWebpagePreferences alloc] init];
+    wp.allowsContentJavaScript = YES;
+    cfg.defaultWebpagePreferences = wp;
     [cfg.userContentController addScriptMessageHandler:self name:@"kflog"];
 
     _webView = [[WKWebView alloc] initWithFrame:self.view.bounds configuration:cfg];
@@ -205,7 +207,8 @@ extern int KFChmod(const char *path, mode_t mode);
         [self boot:[NSString stringWithFormat:@"> hexdump(0x%llX, %zu) printed to stdout", addr, sz] type:@"dim"];
     }
     else if ([op isEqualToString:@"proc"] && parts.count >= 2) {
-        const char *name = [[parts subarrayWithRange:NSMakeRange(1, parts.count - 1)] componentsJoinedByString:@" "] UTF8String];
+        NSString *procName = [[parts subarrayWithRange:NSMakeRange(1, parts.count - 1)] componentsJoinedByString:@" "];
+        const char *name = [procName UTF8String];
         uint64_t p = KFProcFindByName(name);
         [self boot:[NSString stringWithFormat:@"> proc_find(\"%s\") = 0x%llX", name, p] type:p ? @"success" : @"error"];
     }
