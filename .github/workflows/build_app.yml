@@ -45,6 +45,10 @@ jobs:
       - name: Prepare KFKernel sources
         run: |
           cp KFInit.c app/
+          cp KFKernel.h app/
+          cp -r kexploit sandbox apfs kpf xpf utils choma app/
+        run: |
+          cp KFInit.c app/
           cp -r kexploit sandbox apfs kpf xpf utils choma app/
 
       - name: Build KFLog App
