@@ -70,8 +70,9 @@ KFLog_CFLAGS = \
 	-Wno-unused-variable \
 	-Wno-unused-function \
 	-Wno-format \
-	-Wno-incompatible-pointer-types-discard-qualifiers \
-	-Wno-deprecated-declarations
+	-Wno-incompatible-pointer-types \
+	-Wno-deprecated-declarations \
+	-Wno-error
 
 KFLog_LDFLAGS = -Wl,-segalign,4000
 
