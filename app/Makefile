@@ -3,9 +3,6 @@ ARCHS := arm64 arm64e
 
 THEOS ?= $(HOME)/theos
 
-# KFKernel engine sources
-# 本地开发: KF_DIR = .. (app/ 在 KFKernel/ 内部)
-# CI 构建: KF_DIR = .  (文件已复制进 app/)
 ifeq ($(wildcard ./KFInit.c),)
   KF_DIR := ..
 else
@@ -16,7 +13,6 @@ include $(THEOS)/makefiles/common.mk
 
 APPLICATION_NAME = KFLog
 
-# App sources
 KFLog_FILES = \
 	main.m \
 	AppDelegate.m \
@@ -41,7 +37,6 @@ KFLog_FILES = \
 	$(KF_DIR)/utils/hexdump.c \
 	$(KF_DIR)/utils/process.c
 
-# ChOma signing (optional — comment out if compile fails)
 KFLog_FILES += \
 	$(KF_DIR)/choma/MachO.c \
 	$(KF_DIR)/choma/Fat.c \
@@ -74,7 +69,9 @@ KFLog_CFLAGS = \
 	-I$(KF_DIR)/utils \
 	-Wno-unused-variable \
 	-Wno-unused-function \
-	-Wno-format
+	-Wno-format \
+	-Wno-incompatible-pointer-types-discard-qualifiers \
+	-Wno-deprecated-declarations
 
 KFLog_LDFLAGS = -Wl,-segalign,4000
 
